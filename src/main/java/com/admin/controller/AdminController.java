@@ -62,11 +62,12 @@ public class AdminController {
 	//                          Login User
 	// ============================================================================
 	
+	@GetMapping("/login")
 	private ResponseData loginAdmin(@RequestParam(required = true) String emailId, @RequestParam(required = true) String password) {
-		Boolean iscorrectEmailPassword = adminService.loginAdmin(emailId, password);
+		Map<String, Object> iscorrectEmailPassword = adminService.loginAdmin(emailId, password);
 		
-		if(iscorrectEmailPassword) {
-			return new ResponseData("Admin Login Successfully", "Login Successed", HttpStatus.OK);
+		if(iscorrectEmailPassword != null) {
+			return new ResponseData(iscorrectEmailPassword, "OTP Sent Successfully", HttpStatus.OK);
 		}
 		else
 			return new ResponseData("Not Able To Login Admin", "Bed Credentials", HttpStatus.NOT_FOUND);

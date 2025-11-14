@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -128,9 +129,21 @@ public class AdminServiceImpl implements AdminService{
 	// ====================================================
 
 	@Override
-	public Boolean loginAdmin(String emailId, String password) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> loginAdmin(String emailId, String password) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		Map<String, Object> map = new HashMap<>();
+		Admin admin = adminRepository.findByEmail(emailId);
+		Integer otp = 100000 + random.nextInt(900000);
+		
+		if(admin != null && encoder.matches(password, admin.getPassword())) {
+			map.put("id", admin.getId());
+			map.put("message", "OTP Sended successfully");
+			
+			int updateOtp = adminRepository.updateOtp(otp.toString(), admin.getId());
+		}
+		emailSender.sendMail(emailId, otp.toString(), "Use OTP for Login: ");
+		
+		return map;
 	}
 
 }
