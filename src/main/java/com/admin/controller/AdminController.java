@@ -46,15 +46,28 @@ public class AdminController {
 	// ============================================================================
 	
 	@GetMapping("/verify/otp")
-	private ResponseData verifyOtp(@RequestParam(required = true) String otp, @RequestParam(required = true) Long id) {
-		Boolean isCorrect = adminService.verifyOtp(otp, id);
+	private ResponseData verifyOtp(@RequestParam(required = true) String otp, @RequestParam(required = false) Long id,@RequestParam(required = false) String  email) {
+		Boolean isCorrect = adminService.verifyOtp(otp, id, email);
 		
+		ResponseData responseDate = null;
+		
+		if(id != null) {
 		if(isCorrect) {
-			return new ResponseData("Admin Registered Successfully", "Admin Registered Successfully", HttpStatus.CREATED);
+			responseDate = new ResponseData("Admin Registered Successfully", "Admin Registered Successfully", HttpStatus.CREATED);
 		}
 		else {
-			return new ResponseData("Not Able To Register Admin", "OTP Is Not Correct", HttpStatus.NOT_FOUND);
+			responseDate = new ResponseData("Not Able To Register Admin", "OTP Is Not Correct", HttpStatus.NOT_FOUND);
 		}
+		}else if(email != null) {
+			if(isCorrect) {
+				responseDate = new ResponseData("Password Changed Successfully", "Password Changed Successfully", HttpStatus.CREATED);
+			}
+			else {
+				responseDate = new ResponseData("Not Able To Change Password", "Bed Credentials", HttpStatus.NOT_FOUND);
+			}
+		}
+		
+		return responseDate;
 		
 	}
 	
@@ -71,7 +84,7 @@ public class AdminController {
 			return new ResponseData(iscorrectEmailPassword, "Admin Login Successfully", HttpStatus.OK);
 		}
 		else
-			return new ResponseData("Not Able To Login Admin", "Bed Credentials", HttpStatus.NOT_FOUND);
+			return new ResponseData("Not Able To Login Admin", "Login Failed", HttpStatus.NOT_FOUND);
 	}
 	
 	// ============================================================================
@@ -91,7 +104,30 @@ public class AdminController {
 			return new ResponseData(isPasswordChanged, "Password Changed Successfully", HttpStatus.OK);
 		}
 		else {
-			return new ResponseData("Not Able To Change Password", "Bed Credentials", HttpStatus.NOT_FOUND);
+			return new ResponseData("Not Able To Change Password", "Bad Credentials", HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	// ============================================================================
+	//                          Send OTP BY Mail
+	// ============================================================================
+	
+	@GetMapping("/sendOTP/bymail")
+	private ResponseData sendOtpToMail(@RequestParam(required = true) String emailId) {
+
+		Boolean iscorrectEmail = adminService.isEmailExist(emailId);
+
+		if (iscorrectEmail) {
+
+			Boolean isOtpSend = adminService.sendOtpToMail(emailId);
+
+			if (isOtpSend) {
+				return new ResponseData(isOtpSend, "OTP Sent Successfully", HttpStatus.OK);
+			} else {
+				return new ResponseData("Not Able To Send OTP", "Bad Credentials", HttpStatus.NOT_FOUND);
+			}
+		} else {
+			return new ResponseData(iscorrectEmail, "Email is Not Registered", HttpStatus.NOT_FOUND);
 		}
 	}
 }

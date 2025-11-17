@@ -107,9 +107,15 @@ public class AdminServiceImpl implements AdminService{
 	// ====================================================
 	
 	@Override
-	public Boolean verifyOtp(String otp, Long id) {
+	public Boolean verifyOtp(String otp, Long id, String email) {
 		Boolean isVerify = false;
-		Admin admin = adminRepository.findById(id).orElse(null);
+		Admin admin = null;
+		
+		if(id != null) {
+		admin = adminRepository.findById(id).orElse(null);
+		}else {
+			admin = adminRepository.findByEmail(email);
+		}
 		
 		if(otp.equals(admin.getOtp()))
 			isVerify = true;
@@ -158,4 +164,22 @@ public class AdminServiceImpl implements AdminService{
 		return passwordChange;
 	}
 
+	// ====================================================
+	//                  Send OTP By Email
+	// ====================================================
+	
+	@Override
+	public Boolean sendOtpToMail(String emailId) {
+		Boolean otpUpdate = false;
+		Integer otp = 100000 + random.nextInt(900000);
+		
+		int updateOTP = adminRepository.updateOtpByMail(emailId, otp.toString());
+		
+		if(updateOTP != 0)
+		otpUpdate = true;
+		emailSender.sendMail(emailId, otp.toString(), "OTP For Validate: ");
+		
+		return otpUpdate;
+	}
+	
 }
