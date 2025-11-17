@@ -19,6 +19,11 @@ public interface AdminRepository extends JpaRepository<Admin, Long>{
 	@Query("SELECT a.adminId FROM Admin a ORDER BY a.id DESC LIMIT 1")
 	public String generateId();
 
+	@Modifying
+	@Transactional
+	@Query("UPDATE Admin a SET a.password = :password WHERE a.email = :emailId")
+	public int passwordChange(String emailId, String password);
+
 //	@Modifying
 //	@Transactional
 //	@Query("UPDATE Admin a SET a.otp = :otp WHERE a.id = :id")

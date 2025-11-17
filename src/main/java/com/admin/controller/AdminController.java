@@ -73,4 +73,25 @@ public class AdminController {
 		else
 			return new ResponseData("Not Able To Login Admin", "Bed Credentials", HttpStatus.NOT_FOUND);
 	}
+	
+	// ============================================================================
+	//                          Forgot Password
+	// ============================================================================
+	
+	@PostMapping("/password/change")
+	private ResponseData passwordChange(@RequestParam(required = true) String emailId, @RequestParam(required = true) String password, @RequestParam(required = true) String confirmPassword) {
+		
+		if(!password.equals(confirmPassword)) {
+			return new ResponseData("Password Is Not Correct", "Password Is Not Correct", HttpStatus.BAD_REQUEST);
+		}
+		
+		Boolean isPasswordChanged = adminService.passwordChange(emailId, password, confirmPassword);
+		
+		if(isPasswordChanged) {
+			return new ResponseData(isPasswordChanged, "Password Changed Successfully", HttpStatus.OK);
+		}
+		else {
+			return new ResponseData("Not Able To Change Password", "Bed Credentials", HttpStatus.NOT_FOUND);
+		}
+	}
 }

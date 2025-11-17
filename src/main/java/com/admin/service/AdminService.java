@@ -14,4 +14,6 @@ public interface AdminService {
 
 	public Boolean loginAdmin(String emailId, String password);
 
+	public Boolean passwordChange(String emailId, String password, String confirmPassword);
+
 }

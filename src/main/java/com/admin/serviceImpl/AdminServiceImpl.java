@@ -140,5 +140,22 @@ public class AdminServiceImpl implements AdminService{
 		
 		return isCorrect;
 	}
+	
+	// ====================================================
+	//                  Password Change
+	// ====================================================
+
+	@Override
+	public Boolean passwordChange(String emailId, String password, String confirmPassword) {
+		Boolean passwordChange = false;
+		
+		String encodePassword = passwordEncoder.encode(password);
+		int updatePassword = adminRepository.passwordChange(emailId, encodePassword);
+		
+		if(updatePassword != 0) {
+			passwordChange = true;
+		}
+		return passwordChange;
+	}
 
 }
