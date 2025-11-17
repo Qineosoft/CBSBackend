@@ -18,6 +18,4 @@ public interface AdminService {
 
 	public Boolean sendOtpToMail(String emailId);
 
-	public Boolean loginAdmin(String emailId);
-
 }
