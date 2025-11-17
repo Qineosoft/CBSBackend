@@ -79,7 +79,7 @@ public class AdminServiceImpl implements AdminService{
 			if(admin != null) {
 				map = new HashMap<>();
 				map.put("id", admin.getId());
-				map.put("message", "User Registered Successfully");
+				map.put("message", "OTP Send Successfully");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -129,21 +129,16 @@ public class AdminServiceImpl implements AdminService{
 	// ====================================================
 
 	@Override
-	public Map<String, Object> loginAdmin(String emailId, String password) {
+	public Boolean loginAdmin(String emailId, String password) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		Map<String, Object> map = new HashMap<>();
+		Boolean isCorrect = false;
 		Admin admin = adminRepository.findByEmail(emailId);
-		Integer otp = 100000 + random.nextInt(900000);
 		
 		if(admin != null && encoder.matches(password, admin.getPassword())) {
-			map.put("id", admin.getId());
-			map.put("message", "OTP Sended successfully");
-			
-			int updateOtp = adminRepository.updateOtp(otp.toString(), admin.getId());
+			isCorrect = true;
 		}
-		emailSender.sendMail(emailId, otp.toString(), "Use OTP for Login: ");
 		
-		return map;
+		return isCorrect;
 	}
 
 }

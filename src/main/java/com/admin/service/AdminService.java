@@ -12,6 +12,6 @@ public interface AdminService {
 
 	public Boolean verifyOtp(String otp, Long id);
 
-	public Map<String, Object> loginAdmin(String emailId, String password);
+	public Boolean loginAdmin(String emailId, String password);
 
 }
