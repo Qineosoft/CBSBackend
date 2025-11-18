@@ -32,10 +32,6 @@ public class BranchAddress {
     @Column(name = "country")
     private String country;
 
-    @OneToOne
-    @JoinColumn(name = "branch_id")
-    private Branch branch;
-
 	public Long getId() {
 		return id;
 	}
@@ -83,14 +79,4 @@ public class BranchAddress {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-
-	public Branch getBranch() {
-		return branch;
-	}
-
-	public void setBranch(Branch branch) {
-		this.branch = branch;
-	}
-    
-    
 }

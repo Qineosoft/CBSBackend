@@ -52,8 +52,6 @@ public class BranchServiceImpl implements BranchService{
 			BranchContactRequest branchContactRequest = branchRequest.getBranchContact();
 			
 			branch = new Branch();
-			branch.setStatus(Constants.active);
-			BeanUtils.copyProperties(branchRequest, branch);
 			
 			if(branchaddressRequest != null) {
 				branchAddress = new BranchAddress();
@@ -64,9 +62,14 @@ public class BranchServiceImpl implements BranchService{
 				BeanUtils.copyProperties(branchContactRequest, branchContact);
 			}
 			
-			branch = branchRepository.save(branch);
 			branchAddress = branchAddressRepository.save(branchAddress);
 			branchContact = branchContactRepository.save(branchContact);
+			
+			branch.setStatus(Constants.active);
+			branch.setBranchAddress(branchAddress);
+			branch.setBranchContact(branchContact);
+			BeanUtils.copyProperties(branchRequest, branch);
+			branch = branchRepository.save(branch);
 		}
 		
 		if(branch != null && branchAddress != null && branchContact != null) {

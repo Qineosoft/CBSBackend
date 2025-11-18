@@ -5,10 +5,10 @@ import java.util.Date;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -19,38 +19,38 @@ public class Branch {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "branch_type")
 	private String branchType;
-	
+
 	@Column(name = "branch_id")
 	private String branchId;
 
 	@Column(name = "brnach_name")
 	private String branchName;
-	
+
 	@Column(name = "ifsc_code")
 	private String ifscCode;
-	
+
 	@Column(name = "location")
 	private String location;
-	
+
 	@Column(name = "operating_hours")
 	private String operatingHrs;
-	
+
 	@Column(name = "date_opened")
 	private Date dateOpened;
-	
+
 	@Column(name = "status")
 	private String status;
-	
-	 // ----------- Branch Address -----------
-    @OneToOne(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private BranchAddress branchAddress;
 
-    // ----------- Branch Contact -----------
-    @OneToOne(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private BranchContact branchContact;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id")
+	private BranchAddress branchAddress;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "contact_id")
+	private BranchContact branchContact;
 
 	public Long getId() {
 		return id;
@@ -139,5 +139,5 @@ public class Branch {
 	public void setBranchContact(BranchContact branchContact) {
 		this.branchContact = branchContact;
 	}
-	
+
 }

@@ -32,10 +32,6 @@ public class BranchContact {
 	@Column(name = "branch_email")
     private String branchEmail;
 
-    @OneToOne
-    @JoinColumn(name = "branch_id")
-    private Branch branch;
-
 	public Long getId() {
 		return id;
 	}
@@ -83,14 +79,4 @@ public class BranchContact {
 	public void setBranchEmail(String branchEmail) {
 		this.branchEmail = branchEmail;
 	}
-
-	public Branch getBranch() {
-		return branch;
-	}
-
-	public void setBranch(Branch branch) {
-		this.branch = branch;
-	}
-    
-    
 }
