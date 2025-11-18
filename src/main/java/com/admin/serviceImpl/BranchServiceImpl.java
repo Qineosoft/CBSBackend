@@ -83,31 +83,19 @@ public class BranchServiceImpl implements BranchService{
 	@Override
 	public List<BranchResponse> getAllBranch() {
 		List<BranchResponse> branchResponseList = new ArrayList<>();
-		BranchContactResponse branchContactResponse = null;
-		BranchAddressResponse branchAddressResponse = null;
 		
 		List<Branch> branchList = branchRepository.findAll();
 		
 		 for (Branch branch : branchList) {
 
 		        BranchResponse branchResponse = new BranchResponse();
-		        branchResponse.setBranchType(branch.getBranchType());
-		        branchResponse.setBranchId(branch.getBranchId());
-		        branchResponse.setBranchName(branch.getBranchName());
-		        branchResponse.setIfscCode(branch.getIfscCode());
-		        branchResponse.setLocation(branch.getLocation());
-		        branchResponse.setOperatingHrs(branch.getOperatingHrs());
-		        branchResponse.setDateOpened(branch.getDateOpened());
-
+		        
 		        // -------- BRANCH CONTACT RESPONSE --------
 		        BranchContact contact = branch.getBranchContact();
 		        if (contact != null) {
 		            BranchContactResponse contactResponse = new BranchContactResponse();
-		            contactResponse.setManagerName(contact.getManagerName());
-		            contactResponse.setManagerEmail(contact.getManagerEmail());
-		            contactResponse.setManagerPhone(contact.getManagerPhone());
-		            contactResponse.setBranchContactNum(contact.getBranchContactNum());
-		            contactResponse.setBranchEmail(contact.getBranchEmail());
+		            
+		            BeanUtils.copyProperties(contact, contactResponse);
 		            branchResponse.setBranchContactResponse(contactResponse);
 		        }
 
@@ -115,13 +103,12 @@ public class BranchServiceImpl implements BranchService{
 		        BranchAddress address = branch.getBranchAddress();
 		        if (address != null) {
 		            BranchAddressResponse addressResponse = new BranchAddressResponse();
-		            addressResponse.setFullAddress(address.getFullAddress());
-		            addressResponse.setCity(address.getCity());
-		            addressResponse.setState(address.getState());
-		            addressResponse.setPincode(address.getPincode());
-		            addressResponse.setCountry(address.getCountry());
+		            
+		            BeanUtils.copyProperties(address, addressResponse);
 		            branchResponse.setBranchAddressResponse(addressResponse);
 		        }
+		        
+		        BeanUtils.copyProperties(branch, branchResponse);
 
 		        branchResponseList.add(branchResponse);
 		    }
