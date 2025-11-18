@@ -118,4 +118,48 @@ public class BranchServiceImpl implements BranchService{
 		return branchResponseList;
 	}
 
+	// =================================================================
+	//                       Update Branch Details
+	// =================================================================
+	
+	@Override
+	public Boolean updateBranchDetails(BranchRequest branchRequest) {
+		Boolean isUpdate = false;
+		
+		Branch branch = null;
+		BranchAddress branchAddress = null;
+		BranchContact branchContact = null;
+		
+		if(branchRequest != null) {
+			BranchAddressRequest branchaddressRequest = branchRequest.getBranchAddress();
+			BranchContactRequest branchContactRequest = branchRequest.getBranchContact();
+			
+			branch = branchRepository.findById(branchRequest.getId()).orElse(null);
+			
+			if(branchaddressRequest != null) {
+				branchAddress = branch.getBranchAddress();
+				BeanUtils.copyProperties(branchaddressRequest, branchAddress);
+			}
+			if(branchContactRequest != null) {
+				branchContact = branch.getBranchContact();
+				BeanUtils.copyProperties(branchContactRequest, branchContact);
+			}
+			
+			branchAddress = branchAddressRepository.save(branchAddress);
+			branchContact = branchContactRepository.save(branchContact);
+			
+			branch.setStatus(Constants.active);
+			branch.setBranchAddress(branchAddress);
+			branch.setBranchContact(branchContact);
+			BeanUtils.copyProperties(branchRequest, branch);
+			branch = branchRepository.save(branch);
+		}
+		
+		if(branch != null && branchAddress != null && branchContact != null) {
+			isUpdate = true;
+		}
+		
+		return isUpdate;
+	}
+
 }

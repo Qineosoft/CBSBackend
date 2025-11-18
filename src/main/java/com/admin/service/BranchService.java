@@ -11,4 +11,6 @@ public interface BranchService {
 
 	public List<BranchResponse> getAllBranch();
 
+	public Boolean updateBranchDetails(BranchRequest branchRequest);
+
 }

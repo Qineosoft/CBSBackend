@@ -6,6 +6,8 @@ import java.util.Date;
 public class BranchRequest implements Serializable{
 
 	private static final long serialVersionUID = -3454220409938835795L;
+	
+	private Long id;
 
 	private String branchType;
 	
@@ -24,6 +26,14 @@ public class BranchRequest implements Serializable{
 	private BranchContactRequest branchContact;
 	
 	private BranchAddressRequest branchAddress;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getBranchType() {
 		return branchType;

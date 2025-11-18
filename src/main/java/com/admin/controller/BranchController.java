@@ -17,6 +17,8 @@ import com.admin.responseData.ResponseData;
 import com.admin.service.BranchService;
 import com.admin.validation.BranchValidation;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/branch")
 public class BranchController {
@@ -31,7 +33,8 @@ public class BranchController {
 	@PostMapping("/save")
 	private ResponseData saveBranchDetails(@RequestBody BranchRequest branchRequest) {
 		Boolean isSaved =  false;
-		
+		ResponseData responseData = null;
+		if(branchRequest.getId() == null) {
 		String isValidated = BranchValidation.isBranchvalidate(branchRequest);
 		if(!isValidated.equals(Constants.success)) {
 			return new ResponseData(isValidated, "Please Fill The Required Field", HttpStatus.BAD_REQUEST);
@@ -40,10 +43,20 @@ public class BranchController {
 		isSaved = branchService.saveBranchDetails(branchRequest);
 		
 		if(isSaved) {
-			return new ResponseData(isSaved, "Branch Details Saved Successfully", HttpStatus.CREATED);
+			responseData = new ResponseData(isSaved, "Branch Details Saved Successfully", HttpStatus.CREATED);
 		}else {
-			return new ResponseData(isSaved, "Not Able To Save Branch Details", HttpStatus.NOT_FOUND);
+			responseData = new ResponseData(isSaved, "Not Able To Save Branch Details", HttpStatus.NOT_FOUND);
 		}
+		}else if(branchRequest.getId() != null) {
+			isSaved = branchService.updateBranchDetails(branchRequest);
+			
+			if(isSaved) {
+				responseData = new ResponseData(isSaved, "Branch Details Updated Successfully", HttpStatus.CREATED);
+			}else {
+				responseData = new ResponseData(isSaved, "Not Able To Update Branch Details", HttpStatus.NOT_FOUND);
+			}
+		}
+		return responseData;
 	}
 	
 	// ===========================================================================
@@ -54,10 +67,11 @@ public class BranchController {
 	private ResponseData getAllBranch() {
 		List<BranchResponse> branchResponses = branchService.getAllBranch();
 		
-		if(branchResponses != null && !branchResponses.isEmpty()) {
+ 		if(branchResponses != null && !branchResponses.isEmpty()) {
 			return new ResponseData(branchResponses, "Branch Details Fetched Successfully", HttpStatus.OK);
 		}else {
 			return new ResponseData(branchResponses, "Unable To Fetch Branch Details", HttpStatus.OK);
 		}
 	}
+	
 }
