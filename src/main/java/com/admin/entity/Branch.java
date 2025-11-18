@@ -2,11 +2,14 @@ package com.admin.entity;
 
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -40,6 +43,14 @@ public class Branch {
 	
 	@Column(name = "status")
 	private String status;
+	
+	 // ----------- Branch Address -----------
+    @OneToOne(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private BranchAddress branchAddress;
+
+    // ----------- Branch Contact -----------
+    @OneToOne(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private BranchContact branchContact;
 
 	public Long getId() {
 		return id;
@@ -112,6 +123,21 @@ public class Branch {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
+	public BranchAddress getBranchAddress() {
+		return branchAddress;
+	}
+
+	public void setBranchAddress(BranchAddress branchAddress) {
+		this.branchAddress = branchAddress;
+	}
+
+	public BranchContact getBranchContact() {
+		return branchContact;
+	}
+
+	public void setBranchContact(BranchContact branchContact) {
+		this.branchContact = branchContact;
+	}
 	
 }

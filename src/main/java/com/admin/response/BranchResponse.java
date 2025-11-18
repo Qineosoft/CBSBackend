@@ -20,8 +20,10 @@ public class BranchResponse implements Serializable{
 	private String operatingHrs;
 
 	private Date dateOpened;
-
-	private String status;
+	
+	private BranchContactResponse branchContactResponse;
+	
+	private BranchAddressResponse branchAddressResponse;
 
 	public String getBranchType() {
 		return branchType;
@@ -79,12 +81,20 @@ public class BranchResponse implements Serializable{
 		this.dateOpened = dateOpened;
 	}
 
-	public String getStatus() {
-		return status;
+	public BranchContactResponse getBranchContactResponse() {
+		return branchContactResponse;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setBranchContactResponse(BranchContactResponse branchContactResponse) {
+		this.branchContactResponse = branchContactResponse;
+	}
+
+	public BranchAddressResponse getBranchAddressResponse() {
+		return branchAddressResponse;
+	}
+
+	public void setBranchAddressResponse(BranchAddressResponse branchAddressResponse) {
+		this.branchAddressResponse = branchAddressResponse;
 	}
 	
 }
