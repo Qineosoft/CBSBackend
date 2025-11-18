@@ -21,8 +21,6 @@ public class BranchRequest implements Serializable{
 	
 	private Date dateOpened;
 	
-	private String status;
-	
 	private BranchContactRequest branchContact;
 	
 	private BranchAddressRequest branchAddress;
@@ -81,14 +79,6 @@ public class BranchRequest implements Serializable{
 
 	public void setDateOpened(Date dateOpened) {
 		this.dateOpened = dateOpened;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public BranchContactRequest getBranchContact() {

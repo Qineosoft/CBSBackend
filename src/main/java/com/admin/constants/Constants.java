@@ -5,6 +5,8 @@ public class Constants {
 	public static final String active = "ACTIVE";
 
 	public static final String inactive = "INACTIVE";
+	
+	public static final String success = "SUCCESS";
 
 	public static final String Savings = "SAVINGS";
 
