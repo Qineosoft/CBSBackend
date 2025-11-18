@@ -6,6 +6,8 @@ public class BranchContactResponse implements Serializable{
 
 	private static final long serialVersionUID = -1492288879266402702L;
 
+	private Long id;
+	
 	private String managerName;
 
 	private String managerEmail;
@@ -15,6 +17,14 @@ public class BranchContactResponse implements Serializable{
 	private String branchContactNum;
 
 	private String branchEmail;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getManagerName() {
 		return managerName;

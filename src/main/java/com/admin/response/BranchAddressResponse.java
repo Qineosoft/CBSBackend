@@ -5,6 +5,8 @@ import java.io.Serializable;
 public class BranchAddressResponse implements Serializable{
 
 	private static final long serialVersionUID = -8110259526520862977L;
+	
+	private Long id;
 
 	private String fullAddress;
 
@@ -15,6 +17,14 @@ public class BranchAddressResponse implements Serializable{
     private String pincode;
     
     private String country;
+    
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getFullAddress() {
 		return fullAddress;

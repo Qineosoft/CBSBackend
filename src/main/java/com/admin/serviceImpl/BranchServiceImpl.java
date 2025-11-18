@@ -162,4 +162,23 @@ public class BranchServiceImpl implements BranchService{
 		return isUpdate;
 	}
 
+	// =================================================================
+	//                       Update Branch Details
+	// =================================================================
+	
+	@Override
+	public Boolean deleteBranch(Long id) {
+		Boolean isDeleted = false;
+		Branch branch = branchRepository.findById(id).orElse(null);
+		
+		branch.setStatus(Constants.inactive);
+		
+		branch = branchRepository.save(branch);
+		
+		if(branch != null) {
+			isDeleted = true;
+		}
+		return isDeleted;
+	}
+
 }

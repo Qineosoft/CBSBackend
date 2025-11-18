@@ -74,4 +74,21 @@ public class BranchController {
 		}
 	}
 	
+	// ===========================================================================
+	//                          Delete Branch Details
+	// ===========================================================================
+	
+	@PostMapping("/delete")
+	private ResponseData deleteBranch(Long id) {
+		Boolean isDeleted = false;
+		
+		isDeleted = branchService.deleteBranch(id);
+		
+		if(isDeleted) {
+			return new ResponseData(isDeleted,"Branch Deleted Successfully", HttpStatus.OK);
+		}else {
+			return new ResponseData(isDeleted, "Not Able To Delete Branch", HttpStatus.NOT_FOUND);
+		}
+	}
+	
 }
