@@ -1,6 +1,7 @@
 package com.admin.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -107,6 +108,22 @@ public class BranchController {
 			return new ResponseData(isDeleted,"Branch Deleted Successfully", HttpStatus.OK);
 		}else {
 			return new ResponseData(isDeleted, "Not Able To Delete Branch", HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	// ===========================================================================
+	//                          Get Branch Id Name
+	// ===========================================================================
+	
+	@GetMapping("/get/naem/id/all")
+	private ResponseData getAllBranchNameId() {
+		Map<String, String> map = null;
+		map = branchService.getAllBranchNameId();
+		
+ 		if(map != null && !map.isEmpty()) {
+			return new ResponseData(map, "Branch Name Id Fetched Successfully", HttpStatus.OK);
+		}else {
+			return new ResponseData(map, "Unable To Fetch Branch Name Id", HttpStatus.NOT_FOUND);
 		}
 	}
 	

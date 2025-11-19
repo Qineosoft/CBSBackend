@@ -1,7 +1,9 @@
 package com.admin.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,6 +210,24 @@ public class BranchServiceImpl implements BranchService{
 		}
 		
 		return branchResponse;
+	}
+
+	// =================================================================
+	//                       Fetch Branch Name Id
+	// =================================================================
+	
+	@Override
+	public Map<String, String> getAllBranchNameId() {
+		Map<String, String> map = new HashMap<>();
+		
+		List<Branch> branchList = branchRepository.findAll();
+		if(branchList != null && !branchList.isEmpty()) {
+			for(Branch branch : branchList) {
+				map.put("branchId", branch.getBranchId());
+				map.put("branchName", branch.getBranchName());
+			}
+		}
+		return map;
 	}
 
 }
