@@ -140,11 +140,21 @@ public class BranchServiceImpl implements BranchService{
 			
 			if(branchaddressRequest != null) {
 				branchAddress = branch.getBranchAddress();
+				if(branchAddress != null) {
 				BeanUtils.copyProperties(branchaddressRequest, branchAddress);
+				}else {
+					branchAddress = new BranchAddress();
+					BeanUtils.copyProperties(branchaddressRequest, branchAddress);
+				}
 			}
 			if(branchContactRequest != null) {
 				branchContact = branch.getBranchContact();
+				if(branchContact != null) {
 				BeanUtils.copyProperties(branchContactRequest, branchContact);
+				}else {
+					branchContact = new BranchContact();
+					BeanUtils.copyProperties(branchContactRequest, branchContact);
+				}
 			}
 			
 			branchAddress = branchAddressRepository.save(branchAddress);
