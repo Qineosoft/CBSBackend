@@ -13,14 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.admin.constants.Constants;
-import com.admin.repository.BranchRepository;
 import com.admin.request.BranchRequest;
 import com.admin.response.BranchResponse;
 import com.admin.responseData.ResponseData;
 import com.admin.service.BranchService;
 import com.admin.validation.BranchValidation;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/branch")
@@ -36,8 +33,6 @@ public class BranchController {
 	@PostMapping("/save")
 	private ResponseData saveBranchDetails(@RequestBody BranchRequest branchRequest) {
 		Boolean isSaved =  false;
-		ResponseData responseData = null;
-		if(branchRequest.getId() == null) {
 		String isValidated = BranchValidation.isBranchvalidate(branchRequest);
 		if(!isValidated.equals(Constants.success)) {
 			return new ResponseData(isValidated, "Please Fill The Required Field", HttpStatus.BAD_REQUEST);
@@ -46,20 +41,33 @@ public class BranchController {
 		isSaved = branchService.saveBranchDetails(branchRequest);
 		
 		if(isSaved) {
-			responseData = new ResponseData(isSaved, "Branch Details Saved Successfully", HttpStatus.CREATED);
+			return new ResponseData(isSaved, "Branch Details Saved Successfully", HttpStatus.CREATED);
 		}else {
-			responseData = new ResponseData(isSaved, "Not Able To Save Branch Details", HttpStatus.NOT_FOUND);
+			return new ResponseData(isSaved, "Not Able To Save Branch Details", HttpStatus.NOT_FOUND);
 		}
-		}else if(branchRequest.getId() != null) {
-			isSaved = branchService.updateBranchDetails(branchRequest);
-			
-			if(isSaved) {
-				responseData = new ResponseData(isSaved, "Branch Details Updated Successfully", HttpStatus.CREATED);
-			}else {
-				responseData = new ResponseData(isSaved, "Not Able To Update Branch Details", HttpStatus.NOT_FOUND);
-			}
+	}
+	
+	// ===========================================================================
+	//                           Update Branch Details
+	// ===========================================================================
+
+	@PostMapping("/update")
+	private ResponseData updateBranchDetails(@RequestBody BranchRequest branchRequest) {
+		Boolean isUpdate = false;
+		String isValidated = BranchValidation.isBranchvalidate(branchRequest);
+		if (!isValidated.equals(Constants.success)) {
+			return new ResponseData(isValidated, "Please Fill The Required Field", HttpStatus.BAD_REQUEST);
 		}
-		return responseData;
+
+		if (branchRequest.getId() != null) {
+			isUpdate = branchService.updateBranchDetails(branchRequest);
+		}
+		if (isUpdate) {
+			return new ResponseData(isUpdate, "Branch Details Updated Successfully", HttpStatus.CREATED);
+		} else {
+			return new ResponseData(isUpdate, "Not Able To Update Branch Details", HttpStatus.NOT_FOUND);
+		}
+
 	}
 	
 	// ===========================================================================
