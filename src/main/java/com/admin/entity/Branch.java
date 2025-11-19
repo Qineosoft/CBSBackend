@@ -1,6 +1,7 @@
 package com.admin.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -44,6 +45,8 @@ public class Branch {
 
 	@Column(name = "status")
 	private String status;
+	
+	private List<String> services;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id")
@@ -139,6 +142,14 @@ public class Branch {
 
 	public void setBranchContact(BranchContact branchContact) {
 		this.branchContact = branchContact;
+	}
+
+	public List<String> getServices() {
+		return services;
+	}
+
+	public void setServices(List<String> services) {
+		this.services = services;
 	}
 
 }

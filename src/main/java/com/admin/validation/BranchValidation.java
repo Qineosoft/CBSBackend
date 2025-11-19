@@ -8,17 +8,39 @@ import com.admin.request.BranchRequest;
 public class BranchValidation {
 
 	// ==================================================================
-	// Check validation For String
+	//                  Check validation For String
 	// ===================================================================
 	private static Boolean isValid(String str) {
 		Boolean validation = false;
 
-		if (str != null 
-				&& str.trim() != "") {
+		if (str != null && !str.trim().isEmpty()) {
 			validation = true;
 		}
 		return validation;
 	}
+	
+	// ==================================================================
+	//                Check validation For Email
+	// ===================================================================
+	
+	private static boolean isValidEmail(String email) {
+	    if (!isValid(email)) return false;
+
+	    String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+	    return email.matches(regex);
+	}
+	
+	// ==================================================================
+	//                Check validation For Phone
+	// ===================================================================
+	
+	private static boolean isValidPhone(String phone) {
+	    if (!isValid(phone)) return false;
+
+	    return phone.matches("\\d{10}");
+	}
+
+
 
 	// ==================================================================
 	// Check validation For Branch
@@ -55,20 +77,20 @@ public class BranchValidation {
 					validationMessage.append("Manager Name should not be empty. ");
 				}
 
-				else if (!isValid(branchContact.getManagerEmail())) {
-					validationMessage.append("Manager Email should not be empty. ");
+				else if (!isValidEmail(branchContact.getManagerEmail())) {
+					validationMessage.append("Please Provide Correct Manager Email. ");
 				}
 
-				else if (!isValid(branchContact.getManagerPhone())) {
-					validationMessage.append("Manager Phone should not be empty. ");
+				else if (!isValidPhone(branchContact.getManagerPhone())) {
+					validationMessage.append("Please Provide Correct Manager Phone Number. ");
 				}
 
-				else if (!isValid(branchContact.getBranchContactNum())) {
-					validationMessage.append("Branch Contact Number should not be empty. ");
+				else if (!isValidPhone(branchContact.getBranchContactNum())) {
+					validationMessage.append("Please Provide Correct Branch Contact Number. ");
 				}
 
-				else if (!isValid(branchContact.getBranchEmail())) {
-					validationMessage.append("Branch Email should not be empty. ");
+				else if (!isValidEmail(branchContact.getBranchEmail())) {
+					validationMessage.append("Please Provide Correct Branch Email Id. ");
 				}
 			}
 			if (branchAddress == null) {

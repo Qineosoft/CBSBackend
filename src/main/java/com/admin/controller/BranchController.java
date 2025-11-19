@@ -123,7 +123,7 @@ public class BranchController {
 	//                          Get Branch Id Name
 	// ===========================================================================
 	
-	@GetMapping("/get/naem/id/all")
+	@GetMapping("/get/name/id/all")
 	private ResponseData getAllBranchNameId() {
 		Map<String, String> map = null;
 		map = branchService.getAllBranchNameId();
