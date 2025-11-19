@@ -87,7 +87,7 @@ public class BranchServiceImpl implements BranchService{
 	public List<BranchResponse> getAllBranch() {
 		List<BranchResponse> branchResponseList = new ArrayList<>();
 		
-		List<Branch> branchList = branchRepository.findAll();
+		List<Branch> branchList = branchRepository.findAllBranchWithActiveStatus();
 		
 		 for (Branch branch : branchList) {
 
@@ -163,7 +163,7 @@ public class BranchServiceImpl implements BranchService{
 	}
 
 	// =================================================================
-	//                       Update Branch Details
+	//                       Delete Branch Details
 	// =================================================================
 	
 	@Override
@@ -179,6 +179,35 @@ public class BranchServiceImpl implements BranchService{
 			isDeleted = true;
 		}
 		return isDeleted;
+	}
+
+	// =================================================================
+	//                       Get Branch By Id
+	// =================================================================
+	
+	@Override
+	public BranchResponse getBranchById(Long id) {
+		BranchResponse branchResponse = null;
+		BranchAddressResponse branchAddressResponse = null;
+		BranchContactResponse branchContactResponse = null;
+		Branch branch = branchRepository.findById(id).orElse(null);
+		
+		if(branch != null) {
+			branchResponse = new BranchResponse();
+			if(branch.getBranchAddress() != null) {
+				branchAddressResponse = new BranchAddressResponse();
+				BeanUtils.copyProperties(branch.getBranchAddress(),branchAddressResponse);
+			}
+			if(branch.getBranchContact() != null) {
+				branchContactResponse = new BranchContactResponse();
+				BeanUtils.copyProperties(branch.getBranchContact(), branchContactResponse);
+			}
+			branchResponse.setBranchAddressResponse(branchAddressResponse);
+			branchResponse.setBranchContactResponse(branchContactResponse);
+			BeanUtils.copyProperties(branch, branchResponse);
+		}
+		
+		return branchResponse;
 	}
 
 }

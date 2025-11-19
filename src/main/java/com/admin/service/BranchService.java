@@ -15,4 +15,6 @@ public interface BranchService {
 
 	public Boolean deleteBranch(Long id);
 
+	public BranchResponse getBranchById(Long id);
+
 }

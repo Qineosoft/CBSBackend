@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.admin.constants.Constants;
+import com.admin.repository.BranchRepository;
 import com.admin.request.BranchRequest;
 import com.admin.response.BranchResponse;
 import com.admin.responseData.ResponseData;
@@ -61,6 +63,23 @@ public class BranchController {
 	
 	// ===========================================================================
 	//                          Get All Branch Details
+	// ===========================================================================
+	
+	@GetMapping("/get/byid")
+	private ResponseData getBranchById(@RequestParam(required = true) Long id) {
+		BranchResponse branchResponse = branchService.getBranchById(id);
+		
+		if(branchResponse != null) {
+			return new ResponseData(branchResponse, "Branch Details Fetch successfully", HttpStatus.OK);
+		}else {
+			return new ResponseData(branchResponse, "Not Able TO Fetch Branch Details", HttpStatus.NOT_FOUND);
+		}
+		
+		
+	}
+	
+	// ===========================================================================
+	//                          Get Branch Details
 	// ===========================================================================
 	
 	@GetMapping("/get/all")
