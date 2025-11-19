@@ -237,8 +237,7 @@ public class BranchServiceImpl implements BranchService{
 		List<Branch> branchList = branchRepository.findAll();
 		if(branchList != null && !branchList.isEmpty()) {
 			for(Branch branch : branchList) {
-				map.put("branchId", branch.getBranchId());
-				map.put("branchName", branch.getBranchName());
+				map.put(branch.getBranchId(), branch.getBranchName());
 			}
 		}
 		return map;
@@ -254,7 +253,7 @@ public class BranchServiceImpl implements BranchService{
 //		
 //		if(branchRequest != null) {
 //			
-//		}
-//	}
+////		}
+////	}
 
 }
