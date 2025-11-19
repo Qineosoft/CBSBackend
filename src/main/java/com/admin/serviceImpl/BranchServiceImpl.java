@@ -247,13 +247,75 @@ public class BranchServiceImpl implements BranchService{
 	//                       Validate For Duplicate
 	// =================================================================
 	
-//	@Override
-//	public String ValidateForDuplicate(BranchRequest branchRequest) {
-//		String message = null;
-//		
-//		if(branchRequest != null) {
-//			
-////		}
-////	}
+	@Override
+	public String validateForDuplicate(BranchRequest req) {
+
+	    BranchContactRequest contact = req.getBranchContact();
+	    BranchAddressRequest address = req.getBranchAddress();
+
+	    List<Branch> list = branchRepository.findDuplicates(
+	            req.getBranchId(),
+	            req.getIfscCode(),
+	            contact.getManagerEmail(),
+	            contact.getManagerPhone(),
+	            contact.getBranchContactNum(),
+	            contact.getBranchEmail(),
+	            req.getBranchType(),
+	            address.getState()        // CHANGE based on your field
+	    );
+
+	    if (list.isEmpty()) {
+	        return null;  // No errors
+	    }
+
+	    for (Branch b : list) {
+
+	        // Branch ID
+	        if (b.getBranchId().equals(req.getBranchId())) {
+	            return "Branch ID already exists. Please use a different Branch ID.";
+	        }
+
+	        // IFSC
+	        if (b.getIfscCode().equals(req.getIfscCode())) {
+	            return "IFSC code already assigned to another branch.";
+	        }
+
+	        BranchContact bc = b.getBranchContact();
+
+	        if (bc != null) {
+
+	            // Manager Email
+	            if (bc.getManagerEmail().equals(contact.getManagerEmail())) {
+	                return "Manager Email already registered for another branch.";
+	            }
+
+	            // Manager Phone
+	            if (bc.getManagerPhone().equals(contact.getManagerPhone())) {
+	                return "Manager Phone already exists. Please use a different number.";
+	            }
+
+	            // Branch Contact Number
+	            if (bc.getBranchContactNum().equals(contact.getBranchContactNum())) {
+	                return "Branch Contact Number is already in use.";
+	            }
+
+	            // Branch Email
+	            if (bc.getBranchEmail().equals(contact.getBranchEmail())) {
+	                return "Branch Email already assigned to another branch.";
+	            }
+	        }
+
+	        // HEAD branch validation
+	        if ("HEAD".equalsIgnoreCase(req.getBranchType()) &&
+	            "HEAD".equalsIgnoreCase(b.getBranchType()) &&
+	            b.getBranchAddress().getState().equals(address.getState())) {
+
+	            return "A HEAD branch is already created for this state. Only one HEAD branch is allowed.";
+	        }
+	    }
+
+	    return Constants.success;
+	}
+
 
 }

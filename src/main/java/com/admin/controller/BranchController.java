@@ -38,12 +38,18 @@ public class BranchController {
 			return new ResponseData(isValidated, "Please Fill The Required Field", HttpStatus.BAD_REQUEST);
 		}
 		
+		String message = branchService.validateForDuplicate(branchRequest);
+		
+		if(message.equals(Constants.success)) {
 		isSaved = branchService.saveBranchDetails(branchRequest);
 		
 		if(isSaved) {
 			return new ResponseData(isSaved, "Branch Details Saved Successfully", HttpStatus.CREATED);
 		}else {
 			return new ResponseData(isSaved, "Not Able To Save Branch Details", HttpStatus.NOT_FOUND);
+		}
+		}else {
+			return new ResponseData(message, "Please Provide Correct Credentials", HttpStatus.NOT_FOUND);
 		}
 	}
 	

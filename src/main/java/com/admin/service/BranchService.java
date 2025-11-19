@@ -19,5 +19,7 @@ public interface BranchService {
 	public BranchResponse getBranchById(Long id);
 
 	public Map<String, String> getAllBranchNameId();
+	
+	public String validateForDuplicate(BranchRequest req);
 
 }
