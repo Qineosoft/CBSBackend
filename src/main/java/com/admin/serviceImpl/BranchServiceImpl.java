@@ -1,6 +1,7 @@
 package com.admin.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -217,6 +218,8 @@ public class BranchServiceImpl implements BranchService{
 			}
 			branchResponse.setBranchAddressResponse(branchAddressResponse);
 			branchResponse.setBranchContactResponse(branchContactResponse);
+			List<String> servicesList = Arrays.asList(branch.getServices().split(","));
+			branchResponse.setServices(servicesList);
 			BeanUtils.copyProperties(branch, branchResponse);
 		}
 		
@@ -240,5 +243,18 @@ public class BranchServiceImpl implements BranchService{
 		}
 		return map;
 	}
+	
+	// =================================================================
+	//                       Validate For Duplicate
+	// =================================================================
+	
+//	@Override
+//	public String ValidateForDuplicate(BranchRequest branchRequest) {
+//		String message = null;
+//		
+//		if(branchRequest != null) {
+//			
+//		}
+//	}
 
 }

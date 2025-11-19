@@ -24,11 +24,11 @@ public class BranchRequest implements Serializable{
 	
 	private Date dateOpened;
 	
+	private List<String> services;
+	
 	private BranchContactRequest branchContact;
 	
 	private BranchAddressRequest branchAddress;
-	
-	private List<String> services;
 	
 	public Long getId() {
 		return id;
