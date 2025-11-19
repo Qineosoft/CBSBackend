@@ -70,6 +70,7 @@ public class BranchServiceImpl implements BranchService{
 			branch.setStatus(Constants.active);
 			branch.setBranchAddress(branchAddress);
 			branch.setBranchContact(branchContact);
+			branch.setServices(String.join(",", branchRequest.getServices()));
 			BeanUtils.copyProperties(branchRequest, branch);
 			branch = branchRepository.save(branch);
 		}
