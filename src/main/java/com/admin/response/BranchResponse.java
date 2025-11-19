@@ -2,6 +2,7 @@ package com.admin.response;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class BranchResponse implements Serializable{
 
@@ -26,6 +27,8 @@ public class BranchResponse implements Serializable{
 	private BranchContactResponse branchContactResponse;
 	
 	private BranchAddressResponse branchAddressResponse;
+	
+	private List<String> services;
 	
 	public Long getId() {
 		return id;
@@ -105,6 +108,14 @@ public class BranchResponse implements Serializable{
 
 	public void setBranchAddressResponse(BranchAddressResponse branchAddressResponse) {
 		this.branchAddressResponse = branchAddressResponse;
+	}
+
+	public List<String> getServices() {
+		return services;
+	}
+
+	public void setServices(List<String> services) {
+		this.services = services;
 	}
 	
 }

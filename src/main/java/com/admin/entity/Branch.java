@@ -46,6 +46,7 @@ public class Branch {
 	@Column(name = "status")
 	private String status;
 	
+	@Column(name = "service_available")
 	private List<String> services;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

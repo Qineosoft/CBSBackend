@@ -2,6 +2,7 @@ package com.admin.request;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class BranchRequest implements Serializable{
 
@@ -26,6 +27,8 @@ public class BranchRequest implements Serializable{
 	private BranchContactRequest branchContact;
 	
 	private BranchAddressRequest branchAddress;
+	
+	private List<String> services;
 	
 	public Long getId() {
 		return id;
@@ -105,6 +108,14 @@ public class BranchRequest implements Serializable{
 
 	public void setBranchAddress(BranchAddressRequest branchAddress) {
 		this.branchAddress = branchAddress;
+	}
+
+	public List<String> getServices() {
+		return services;
+	}
+
+	public void setServices(List<String> services) {
+		this.services = services;
 	}
 	
 }

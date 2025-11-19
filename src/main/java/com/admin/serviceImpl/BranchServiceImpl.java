@@ -89,7 +89,7 @@ public class BranchServiceImpl implements BranchService{
 	public List<BranchResponse> getAllBranch() {
 		List<BranchResponse> branchResponseList = new ArrayList<>();
 		
-		List<Branch> branchList = branchRepository.findAllBranchWithActiveStatus();
+		List<Branch> branchList = branchRepository.findAllBranchWithActiveStatus(Constants.active);
 		
 		 for (Branch branch : branchList) {
 
