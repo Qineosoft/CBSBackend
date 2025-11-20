@@ -75,7 +75,7 @@ public class AdminValidation {
         if (!isValidEmail(email)) {
             validationMessage.append("Please provide a valid email address. ");
         }
-        if (isValidPassword(password)) {
+        if (!isValidPassword(password)) {
         	validationMessage.append("Password must be at least 8 characters and include uppercase, lowercase, number, and special character. ");
         }
         if (validationMessage.length() > 0) {
