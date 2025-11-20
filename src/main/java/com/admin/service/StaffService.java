@@ -13,4 +13,6 @@ public interface StaffService {
 
 	public List<StaffResponse> getAllStaff();
 
+	public StaffResponse getStaffById(Long id);
+
 }

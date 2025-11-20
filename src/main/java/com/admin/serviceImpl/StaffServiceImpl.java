@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.admin.constants.Constants;
 import com.admin.entity.Branch;
@@ -40,7 +41,8 @@ public class StaffServiceImpl implements StaffService{
 		Staff staff = null;
 		
 		Branch branch = branchRepository.findByBranchId(staffRequest.getBranchId());
-		String staffId = generateStaffId(staffRequest.getBranchId());
+//		String staffId = generateStaffId(staffRequest.getBranchId());
+		String staffId = generateStaffId();
 		
 		if(staffRequest != null) {
 			staff = new Staff();
@@ -64,8 +66,24 @@ public class StaffServiceImpl implements StaffService{
 	//                      Generate Staff id
 	// ======================================================
 
-	public String generateStaffId(String branchId) {
-		String prefix = branchId.substring(0, 2).toUpperCase();
+//	public String generateStaffId(String branchId) {
+//		String prefix = branchId.substring(0, 2).toUpperCase();
+//
+//		String staffId = staffRepository.finRecentStaffId();
+//
+//		if (staffId == null || staffId.isEmpty()) {
+//			return prefix + "1000";
+//		}
+//
+//		String lastNumberPart = staffId.substring(2);
+//		int number = Integer.parseInt(lastNumberPart);
+//		number++;
+//
+//		return prefix + number;
+//	}
+	
+	public String generateStaffId() {
+		String prefix = "STAFF";
 
 		String staffId = staffRepository.finRecentStaffId();
 
@@ -73,7 +91,7 @@ public class StaffServiceImpl implements StaffService{
 			return prefix + "1000";
 		}
 
-		String lastNumberPart = staffId.substring(2);
+		String lastNumberPart = staffId.substring(5);
 		int number = Integer.parseInt(lastNumberPart);
 		number++;
 
@@ -81,7 +99,7 @@ public class StaffServiceImpl implements StaffService{
 	}
 
 	// ======================================================
-	//                      Save Staff
+	//                      Update Staff
 	// ======================================================
 	
 	@Override
@@ -127,5 +145,24 @@ public class StaffServiceImpl implements StaffService{
 		}
 		
 		return staffResponses;
+	}
+	
+	// ======================================================
+	//                   Get Staff Details By Id
+	// ======================================================
+	
+	@Override
+	public StaffResponse getStaffById(Long id) {
+		StaffResponse staffResponse = null;
+		Staff staff = staffRepository.findById(id).orElse(null);
+		
+		if(staff != null) {
+			staffResponse = new StaffResponse();
+			staffResponse.setRole(Arrays.asList(staff.getRole().split(",")));
+			staffResponse.setPermissions(Arrays.asList(staff.getPermissions().split(",")));
+			staffResponse.setBranchId(staff.getBranch().getBranchId());
+			BeanUtils.copyProperties(staff, staffResponse);
+			}
+		return staffResponse;
 	}
 }

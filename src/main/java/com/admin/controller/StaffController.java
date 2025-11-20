@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.admin.constants.Constants;
@@ -81,6 +82,21 @@ public class StaffController {
 			return new ResponseData(staffResponses, "All Staff Details Fetched Successfully", HttpStatus.OK);
 		}else {
 			return new ResponseData(staffResponses, "Unable To Fetch Staff Details", HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	// ==================================================
+	//                   Get Staff By Id
+	// ==================================================
+	
+	@GetMapping(UrlConstants.getById)
+	private ResponseData getStaffById(@RequestParam(required = true) Long id) {
+		StaffResponse staffResponse = staffService.getStaffById(id);
+		
+		if(staffResponse != null) {
+			return new ResponseData(staffResponse, "Staff Details Fetched Successfully", HttpStatus.OK);
+		}else {
+			return new ResponseData(staffResponse, "Unable To Fetch Staff Details", HttpStatus.NOT_FOUND);
 		}
 	}
 }
