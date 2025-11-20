@@ -15,6 +15,9 @@ public interface BranchRepository extends JpaRepository<Branch, Long>{
 	@Query("SELECT b FROM Branch b where b.status = :status")
 	public List<Branch> findAllBranchWithActiveStatus(@Param("status") String status);
 	
+	@Query("SELECT b.branchName FROM Branch b WHERE b.branchId = :branchId")
+	public String findBrnach(@Param("branchId") String branchId);
+	
 	@Query("""
 		    SELECT b FROM Branch b 
 		    LEFT JOIN b.branchContact bc
@@ -42,6 +45,5 @@ public interface BranchRepository extends JpaRepository<Branch, Long>{
 		        @Param("branchType") String branchType,
 		        @Param("state") String state
 		);
-
 
 }

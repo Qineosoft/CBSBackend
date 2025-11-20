@@ -1,0 +1,40 @@
+package com.admin.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.admin.constants.UrlConstants;
+import com.admin.request.StaffRequest;
+import com.admin.response.StaffResponse;
+import com.admin.responseData.ResponseData;
+import com.admin.service.StaffService;
+
+@RestController
+@RequestMapping(UrlConstants.mainUrl)
+public class StaffController {
+
+	@Autowired
+	private StaffService staffService;
+	
+	// ==================================================
+	//                    Save Staff
+	// ==================================================
+	
+	@PostMapping(UrlConstants.saveStaff)
+	private  ResponseData saveStaff(@RequestBody StaffRequest staffRequest) {
+		Boolean isSave = false;
+		
+		isSave = staffService.saveStaff(staffRequest);
+		if(isSave) {
+			return new ResponseData(isSave, "Staff Record Saved Successfully", HttpStatus.CREATED);
+		}else {
+			return new ResponseData(isSave, "Unable TO Save Staff", HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+}
