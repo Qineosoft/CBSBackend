@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.admin.constants.Constants;
 import com.admin.request.AdminRequest;
 import com.admin.responseData.ResponseData;
 import com.admin.service.AdminService;
+import com.admin.validation.AdminValidation;
 
 @RestController
 @RequestMapping("/admin")
@@ -28,21 +30,27 @@ public class AdminController {
 	// ============================================================================
 	
 	@PostMapping("/signUp")
-	private ResponseData signUp(@RequestBody AdminRequest adminRequest) {
+	private ResponseData signUp(@RequestBody() AdminRequest adminRequest) {
 		Boolean isAvailable = adminService.isEmailExist(adminRequest.getEmail());
 		Map<String, Object> map = new HashMap<>();
-		
-		if(isAvailable)
-			return new ResponseData(isAvailable, "User alreaddy exist", HttpStatus.BAD_REQUEST);
-		
-		map = adminService.loginUser(adminRequest);
-		
-		if(map != null && !map.isEmpty()) {
-		return new ResponseData(map, "OTP Send Successfully", HttpStatus.CREATED);
+
+		String isValidated = AdminValidation.isAdminValidate(adminRequest);
+
+		if (isValidated.equals(Constants.success)) {
+			if (isAvailable)
+				return new ResponseData(isAvailable, "User alreaddy exist", HttpStatus.BAD_REQUEST);
+
+			map = adminService.loginUser(adminRequest);
+
+			if (map != null && !map.isEmpty()) {
+				return new ResponseData(map, "OTP Send Successfully", HttpStatus.CREATED);
+			} else {
+				return new ResponseData(map, "Please Provide Correct Credential", HttpStatus.NOT_FOUND);
+			}
 		}else {
-			return new ResponseData(map, "Please Provide Correct Credential", HttpStatus.NOT_FOUND);
+			return new ResponseData(isValidated, "Please Provide Correct Credential", HttpStatus.NOT_FOUND);
 		}
-		
+
 	}
 	
 	// ============================================================================
@@ -82,13 +90,18 @@ public class AdminController {
 	@GetMapping("/login")
 	private ResponseData loginAdmin(@RequestParam(required = true) String emailId, @RequestParam(required = true) String password) {
 		
-		Boolean iscorrectEmailPassword = adminService.loginAdmin(emailId, password);
+		String isValidate = AdminValidation.isLoginValid(emailId, password);
 		
+		if(isValidate.equals(Constants.success)){
+			Boolean iscorrectEmailPassword = adminService.loginAdmin(emailId, password);
 		if(iscorrectEmailPassword) {
 			return new ResponseData(iscorrectEmailPassword, "Admin Login Successfully", HttpStatus.OK);
 		}
-		else
+		else {
 			return new ResponseData("Not Able To Login Admin", "Login Failed", HttpStatus.NOT_FOUND);
+		}}else {
+			return new ResponseData(isValidate, "Please Provide The Correct Credentials", HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	// ============================================================================

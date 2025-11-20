@@ -33,6 +33,18 @@ public class StaffVelidation {
 
         return phone.matches("\\d{10}");
     }
+    
+	// ===============================================================
+    //  Password Validation (Strong Password)
+    //===============================================================
+	private static Boolean isValidPassword(String password) {
+		if (!isValid(password))
+			return false;
+
+		String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+		return password.matches(regex);
+	}
+
 
     // ===============================================================
     //           Main Staff Validation Method
@@ -57,8 +69,8 @@ public class StaffVelidation {
         if (!isValid(staffRequest.getBranchId())) {
             validationMessage.append("Branch ID should not be empty. ");
         }
-        if (!isValid(staffRequest.getPassword())) {
-            validationMessage.append("Password should not be empty. ");
+        if (!isValidPassword(staffRequest.getPassword())) {
+        	validationMessage.append("Password must be at least 8 characters and include uppercase, lowercase, number, and special character. ");
         }
         if (staffRequest.getRoles() == null || staffRequest.getRoles().isEmpty()) {
             validationMessage.append("At least one role must be assigned. ");

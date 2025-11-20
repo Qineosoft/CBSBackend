@@ -39,8 +39,17 @@ public class BranchValidation {
 
 	    return phone.matches("\\d{10}");
 	}
-
-
+	
+	// ===============================================================
+	//  Password Validation (Strong Password)
+	//===============================================================
+//	private static Boolean isValidPassword(String password) {
+//		if (!isValid(password))
+//			return false;
+//
+//		String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+//		return password.matches(regex);
+//	}
 
 	// ==================================================================
 	// Check validation For Branch
