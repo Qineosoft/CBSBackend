@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.admin.constants.Constants;
 import com.admin.constants.UrlConstants;
 import com.admin.request.StaffRequest;
-import com.admin.response.StaffResponse;
 import com.admin.responseData.ResponseData;
 import com.admin.service.StaffService;
+import com.admin.validation.StaffVelidation;
 
 @RestController
 @RequestMapping(UrlConstants.mainUrl)
@@ -27,6 +28,12 @@ public class StaffController {
 	@PostMapping(UrlConstants.saveStaff)
 	private  ResponseData saveStaff(@RequestBody StaffRequest staffRequest) {
 		Boolean isSave = false;
+		
+		String isValidateStaff = StaffVelidation.validateStaff(staffRequest);
+		
+		if (!isValidateStaff.equals(Constants.success)) {
+	        return new ResponseData(isValidateStaff, "Please correct the validation errors", HttpStatus.BAD_REQUEST);
+	    }
 		
 		isSave = staffService.saveStaff(staffRequest);
 		if(isSave) {

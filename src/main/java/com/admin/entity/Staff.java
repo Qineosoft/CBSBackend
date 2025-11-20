@@ -21,8 +21,8 @@ public class Staff {
 	@Column(name = "staff_id")
 	private String staffId;
 
-	@Column(name = "username")
-	private String username;
+	@Column(name = "full_name")
+	private String fullName;
 
 	@Column(name = "email")
 	private String email;
@@ -42,6 +42,9 @@ public class Staff {
 
 	@Column(name = "permissions")
 	private String permissions;
+	
+	@Column(name = "status")
+	private String status;
 
 	public Long getId() {
 		return id;
@@ -59,12 +62,12 @@ public class Staff {
 		this.staffId = staffId;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getEmail() {
@@ -114,5 +117,12 @@ public class Staff {
 	public void setPermissions(String permissions) {
 		this.permissions = permissions;
 	}
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

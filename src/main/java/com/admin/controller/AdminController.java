@@ -37,7 +37,11 @@ public class AdminController {
 		
 		map = adminService.loginUser(adminRequest);
 		
-		return new ResponseData(map, "", HttpStatus.CREATED);
+		if(map != null && !map.isEmpty()) {
+		return new ResponseData(map, "OTP Send Successfully", HttpStatus.CREATED);
+		}else {
+			return new ResponseData(map, "Please Provide Correct Credential", HttpStatus.NOT_FOUND);
+		}
 		
 	}
 	

@@ -11,7 +11,7 @@ public class StaffResponse implements Serializable{
 
 	private String staffId;
 
-	private String username;
+	private String fullName;
 
 	private String email;
 
@@ -38,13 +38,13 @@ public class StaffResponse implements Serializable{
 	public void setStaffId(String staffId) {
 		this.staffId = staffId;
 	}
-
-	public String getUsername() {
-		return username;
+	
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getEmail() {

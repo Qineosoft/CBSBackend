@@ -7,7 +7,7 @@ public class StaffRequest implements Serializable{
 
 	private static final long serialVersionUID = 7422602267314356482L;
 
-	private String username;
+	private String fullName;
 
 	private String email;
 
@@ -21,12 +21,12 @@ public class StaffRequest implements Serializable{
 
 	private List<String> permissions;
 
-	public String getUsername() {
-		return username;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getEmail() {
