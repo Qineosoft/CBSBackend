@@ -26,22 +26,20 @@ public class StaffController {
 	// ==================================================
 	
 	@PostMapping(UrlConstants.saveStaff)
-	private  ResponseData saveStaff(@RequestBody StaffRequest staffRequest) {
+	private ResponseData saveStaff(@RequestBody StaffRequest staffRequest) {
 		Boolean isSave = false;
-		
+
 		String isValidateStaff = StaffVelidation.validateStaff(staffRequest);
-		
-		if (!isValidateStaff.equals(Constants.success)) {
-	        return new ResponseData(isValidateStaff, "Please correct the validation errors", HttpStatus.BAD_REQUEST);
-	    }
-		
-		isSave = staffService.saveStaff(staffRequest);
-		if(isSave) {
-			return new ResponseData(isSave, "Staff Record Saved Successfully", HttpStatus.CREATED);
-		}else {
-			return new ResponseData(isSave, "Unable TO Save Staff", HttpStatus.NOT_FOUND);
+
+		if (isValidateStaff.equals(Constants.success)) {
+			isSave = staffService.saveStaff(staffRequest);
+			if (isSave) {
+				return new ResponseData(isSave, "Staff Record Saved Successfully", HttpStatus.CREATED);
+			} else {
+				return new ResponseData(isSave, "Unable TO Save Staff", HttpStatus.NOT_FOUND);
+			}
+		} else {
+			return new ResponseData(isValidateStaff, "Please Provide Correct Credentials", HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	
 }
