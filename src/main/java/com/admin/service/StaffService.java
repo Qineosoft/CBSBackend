@@ -15,4 +15,6 @@ public interface StaffService {
 
 	public StaffResponse getStaffById(Long id);
 
+	public Boolean deleteById(Long id);
+
 }

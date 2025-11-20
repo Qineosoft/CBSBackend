@@ -130,7 +130,7 @@ public class StaffServiceImpl implements StaffService{
 	public List<StaffResponse> getAllStaff() {
 		List<StaffResponse> staffResponses = null;
 		StaffResponse staffResponse = null;
-		List<Staff> staffs = staffRepository.findAll();
+		List<Staff> staffs = staffRepository.findAllActiveStaff(Constants.active);
 		
 		if(staffs != null && !staffs.isEmpty()) {
 			staffResponses = new ArrayList<>();
@@ -164,5 +164,21 @@ public class StaffServiceImpl implements StaffService{
 			BeanUtils.copyProperties(staff, staffResponse);
 			}
 		return staffResponse;
+	}
+	
+	// ======================================================
+	//                   Delete Staff Details
+	// ======================================================
+
+	@Override
+	public Boolean deleteById(Long id) {
+		Boolean isDeleted = false;
+		
+			int deleteStaff = staffRepository.deleteStaff(id, Constants.inactive);
+			
+			if(deleteStaff != 0) {
+				isDeleted = true;
+			}
+		return isDeleted;
 	}
 }

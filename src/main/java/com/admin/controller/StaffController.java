@@ -99,4 +99,21 @@ public class StaffController {
 			return new ResponseData(staffResponse, "Unable To Fetch Staff Details", HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	// ==================================================
+	//                   Delete Staff By Id
+	// ==================================================
+	
+	@PostMapping(UrlConstants.deleteById)
+	private ResponseData deleteById(@RequestParam(required = true) Long id) {
+		Boolean isDeleted = false;
+		
+		isDeleted = staffService.deleteById(id);
+		
+		if(isDeleted != null) {
+			return new ResponseData(isDeleted, "Staff Deleted Successfully", HttpStatus.OK);
+		}else {
+			return new ResponseData(isDeleted, "Unable To Delete Staff", HttpStatus.NOT_FOUND);
+		}
+	}
 }

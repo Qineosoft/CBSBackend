@@ -15,4 +15,6 @@ public class UrlConstants {
 	public static final String getAllStaff = "/get/all";
 	
 	public static final String getById = "/get/by/id";
+	
+	public static final String deleteById = "/delete/by/id";
 }
