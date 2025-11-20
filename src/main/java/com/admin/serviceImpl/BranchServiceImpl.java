@@ -261,21 +261,19 @@ public class BranchServiceImpl implements BranchService{
 	            contact.getBranchContactNum(),
 	            contact.getBranchEmail(),
 	            req.getBranchType(),
-	            address.getState()        // CHANGE based on your field
+	            address.getState()
 	    );
 
 	    if (list.isEmpty()) {
-	        return null;  // No errors
+	        return null;
 	    }
 
 	    for (Branch b : list) {
 
-	        // Branch ID
 	        if (b.getBranchId().equals(req.getBranchId())) {
 	            return "Branch ID already exists. Please use a different Branch ID.";
 	        }
 
-	        // IFSC
 	        if (b.getIfscCode().equals(req.getIfscCode())) {
 	            return "IFSC code already assigned to another branch.";
 	        }
@@ -284,28 +282,23 @@ public class BranchServiceImpl implements BranchService{
 
 	        if (bc != null) {
 
-	            // Manager Email
 	            if (bc.getManagerEmail().equals(contact.getManagerEmail())) {
 	                return "Manager Email already registered for another branch.";
 	            }
 
-	            // Manager Phone
 	            if (bc.getManagerPhone().equals(contact.getManagerPhone())) {
 	                return "Manager Phone already exists. Please use a different number.";
 	            }
 
-	            // Branch Contact Number
 	            if (bc.getBranchContactNum().equals(contact.getBranchContactNum())) {
 	                return "Branch Contact Number is already in use.";
 	            }
 
-	            // Branch Email
 	            if (bc.getBranchEmail().equals(contact.getBranchEmail())) {
 	                return "Branch Email already assigned to another branch.";
 	            }
 	        }
 
-	        // HEAD branch validation
 	        if ("HEAD".equalsIgnoreCase(req.getBranchType()) &&
 	            "HEAD".equalsIgnoreCase(b.getBranchType()) &&
 	            b.getBranchAddress().getState().equals(address.getState())) {
