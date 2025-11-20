@@ -9,4 +9,8 @@ public class UrlConstants {
 	public static final String mainUrl = "/staff";
 	
 	public static final String saveStaff = "/save";
+	
+	public static final String updateStaff = "/update";
+	
+	public static final String getAllStaff = "/get/all";
 }

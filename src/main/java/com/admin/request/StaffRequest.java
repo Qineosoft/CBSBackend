@@ -6,6 +6,8 @@ import java.util.List;
 public class StaffRequest implements Serializable{
 
 	private static final long serialVersionUID = 7422602267314356482L;
+	
+	private Long id;
 
 	private String fullName;
 
@@ -20,6 +22,14 @@ public class StaffRequest implements Serializable{
 	private List<String> roles;
 
 	private List<String> permissions;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getFullName() {
 		return fullName;
