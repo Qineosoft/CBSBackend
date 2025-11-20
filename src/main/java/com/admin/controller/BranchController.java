@@ -65,19 +65,25 @@ public class BranchController {
 			return new ResponseData(isValidated, "Please Fill The Required Field", HttpStatus.BAD_REQUEST);
 		}
 
-		if (branchRequest.getId() != null) {
-			isUpdate = branchService.updateBranchDetails(branchRequest);
-		}
-		if (isUpdate) {
-			return new ResponseData(isUpdate, "Branch Details Updated Successfully", HttpStatus.CREATED);
+		String message = branchService.validateForDuplicate(branchRequest);
+
+		if (message.equals(Constants.success)) {
+			if (branchRequest.getId() != null) {
+				isUpdate = branchService.updateBranchDetails(branchRequest);
+			}
+			if (isUpdate) {
+				return new ResponseData(isUpdate, "Branch Details Updated Successfully", HttpStatus.CREATED);
+			} else {
+				return new ResponseData(isUpdate, "Not Able To Update Branch Details", HttpStatus.NOT_FOUND);
+			}
 		} else {
-			return new ResponseData(isUpdate, "Not Able To Update Branch Details", HttpStatus.NOT_FOUND);
+			return new ResponseData(message, "Please Provide Correct Credentials", HttpStatus.NOT_FOUND);
 		}
 
 	}
 	
 	// ===========================================================================
-	//                          Get All Branch Details
+	//                          Get Branch Details By Id
 	// ===========================================================================
 	
 	@GetMapping("/get/byid")
@@ -94,7 +100,7 @@ public class BranchController {
 	}
 	
 	// ===========================================================================
-	//                          Get Branch Details
+	//                          Get All Branch Details
 	// ===========================================================================
 	
 	@GetMapping("/get/all")
@@ -126,7 +132,7 @@ public class BranchController {
 	}
 	
 	// ===========================================================================
-	//                          Get Branch Id Name
+	//                          Get All Branch Id Name
 	// ===========================================================================
 	
 	@GetMapping("/get/name/id/all")
