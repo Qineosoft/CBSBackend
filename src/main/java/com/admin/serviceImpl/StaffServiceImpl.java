@@ -37,30 +37,30 @@ public class StaffServiceImpl implements StaffService{
 	
 	@Override
 	public Boolean saveStaff(StaffRequest staffRequest) {
-		Boolean isSaved = false;
-		Staff staff = null;
-		
-		Branch branch = branchRepository.findByBranchId(staffRequest.getBranchId());
-//		String staffId = generateStaffId(staffRequest.getBranchId());
-		String staffId = generateStaffId();
-		
-		if(staffRequest != null) {
-			staff = new Staff();
-			staff.setBranch(branch);
-			staff.setStaffId(staffId);
-			staff.setPassword(passwordEncoder.encode(staffRequest.getPassword()));
-			staff.setStatus(Constants.active);
-			staff.setRole(String.join(",", staffRequest.getRoles()));
-			staff.setPermissions(String.join(",", staffRequest.getPermissions()));
-			BeanUtils.copyProperties(staffRequest, staff);
-		}
-		
-		staff = staffRepository.save(staff);
-		if(staff != null) {
-			isSaved = true;
-		}
-		return isSaved;
+	    if (staffRequest == null) {
+	        return false;
+	    }
+
+	    Branch branch = branchRepository.findByBranchId(staffRequest.getBranchId());
+	    String staffId = generateStaffId();
+
+	    Staff staff = new Staff();
+
+	    staff.setBranch(branch);
+	    staff.setStaffId(staffId);
+	    staff.setPassword(passwordEncoder.encode(staffRequest.getPassword()));
+	    staff.setStatus(Constants.active);
+	    staff.setRole(String.join(",", staffRequest.getRoles()));
+	    staff.setPermissions(String.join(",", staffRequest.getPermissions()));
+
+	    BeanUtils.copyProperties(staffRequest, staff, 
+	            "branch", "staffId", "password", "status", "role", "permissions");
+
+	    Staff saved = staffRepository.save(staff);
+
+	    return saved != null;
 	}
+
 	
 	// ======================================================
 	//                      Generate Staff id
@@ -83,19 +83,21 @@ public class StaffServiceImpl implements StaffService{
 //	}
 	
 	public String generateStaffId() {
-		String prefix = "STAFF";
+	    String prefix = "STAFF";
 
-		String staffId = staffRepository.finRecentStaffId();
+	    String lastStaffId = staffRepository.finRecentStaffId(); // Example: STAFF1000
 
-		if (staffId == null || staffId.isEmpty()) {
-			return prefix + "1000";
-		}
+	    if (lastStaffId == null || lastStaffId.isEmpty()) {
+	        return prefix + "1000";
+	    }
 
-		String lastNumberPart = staffId.substring(5);
-		int number = Integer.parseInt(lastNumberPart);
-		number++;
+	    // Extract numeric part after "STAFF"
+	    String numericPart = lastStaffId.replace(prefix, "");  
+	    int number = Integer.parseInt(numericPart);
 
-		return prefix + number;
+	    number++;
+
+	    return prefix + number;
 	}
 
 	// ======================================================
