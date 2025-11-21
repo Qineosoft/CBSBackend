@@ -102,10 +102,12 @@ public class StaffServiceImpl implements StaffService{
 		Staff staff = staffRepository.findById(staffRequest.getId()).orElse(null);
 		
 		if(staffRequest != null) {
-			staff.setPassword(passwordEncoder.encode(staffRequest.getPassword()));
+			staff.setFullName(staffRequest.getFullName());
+			staff.setPhone(staffRequest.getPhone());
 			staff.setRole(String.join(",", staffRequest.getRoles()));
 			staff.setPermissions(String.join(",", staffRequest.getPermissions()));
-			BeanUtils.copyProperties(staffRequest, staff);
+//			staff.setPassword(passwordEncoder.encode(staffRequest.getPassword()));
+//			BeanUtils.copyProperties(staffRequest, staff);
 		}
 		
 		staff = staffRepository.save(staff);
