@@ -174,4 +174,23 @@ public class StaffServiceImpl implements StaffService{
 			}
 		return isDeleted;
 	}
+
+	// ======================================================
+	//                 Reset Staff Password
+	// ======================================================
+
+	@Override
+	public Boolean resetPassword(Long id, String newPassword) {
+		Staff staff = staffRepository.findById(id).orElse(null);
+
+		String encodedPassword = passwordEncoder.encode(newPassword);
+        staff.setPassword(encodedPassword);
+        staff.setPasswordExpiryDate(LocalDate.now().plusDays(90));
+
+        staffRepository.save(staff);
+
+        emailSender.sendPasswordResetMail(staff.getEmail(), newPassword);
+        
+        return true;
+	}
 }

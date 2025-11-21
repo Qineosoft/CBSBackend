@@ -92,4 +92,34 @@ public class EmailSender {
         javaMailSender.send(message);
     }
 
+    // ==========================================================================
+    //                        Send Password Reset Mail
+    // ==========================================================================
+
+	public void sendPasswordResetMail(String email, String newPassword) {
+		try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+            helper.setTo(email);
+            helper.setSubject("Your New Password (Reset Successful)");
+
+            String body = "<h3>Password Reset Successfully</h3>"
+                    + "<p>Your password has been updated by the administrator.</p>"
+                    + "<p><b>New Password:</b> " + newPassword + "</p>"
+                    + "<p>Please log in using the new password.</p>"
+                    + "<p><b>Note:</b> Your password will expire in 90 days.</p>"
+                    + "<br>"
+                    + "<p>Regards,<br>Admin Team</p>";
+
+            helper.setText(body, true);
+
+            javaMailSender.send(message);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		
+	}
+
 }

@@ -116,4 +116,19 @@ public class StaffController {
 			return new ResponseData(isDeleted, "Unable To Delete Staff", HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	// ==================================================
+	//                   Delete Staff By Id
+	// ==================================================
+	
+	@PostMapping(UrlConstants.passwordReset)
+	public ResponseData resetPassword(@RequestParam(required = true) Long id,@RequestParam(required = true) String newPassword) {
+	    Boolean isReset = staffService.resetPassword(id, newPassword);
+
+	    if (isReset) {
+	        return new ResponseData(true, "Password reset successfully. New credentials sent to staff email.", HttpStatus.OK);
+	    }
+	    return new ResponseData(false, "Unable to reset password. Staff not found.", HttpStatus.NOT_FOUND);
+	}
+
 }

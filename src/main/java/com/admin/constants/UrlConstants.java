@@ -17,4 +17,6 @@ public class UrlConstants {
 	public static final String getById = "/get/by/id";
 	
 	public static final String deleteById = "/delete/by/id";
+	
+	public static final String passwordReset = "/password/reset";
 }

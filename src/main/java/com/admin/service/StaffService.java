@@ -17,4 +17,6 @@ public interface StaffService {
 
 	public Boolean deleteById(Long id);
 
+	public Boolean resetPassword(Long id, String newPassword);
+
 }
