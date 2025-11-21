@@ -84,4 +84,43 @@ public class StaffVelidation {
 
         return Constants.success;
     }
+    
+    // ===============================================================
+    //           Main Staff Validation Method For Update
+    // ===============================================================
+    
+    public static String validateStaffForUpdate(StaffRequest staffRequest) {
+
+        StringBuilder validationMessage = new StringBuilder();
+
+        if (staffRequest == null) {
+            return "Invalid request. Staff details cannot be empty.";
+        }
+        if (!isValid(staffRequest.getFullName())) {
+            validationMessage.append("Full Name should not be empty. ");
+        }
+//        if (!isValidEmail(staffRequest.getEmail())) {
+//            validationMessage.append("Please provide a valid email address. ");
+//        }
+        if (!isValidPhone(staffRequest.getPhone())) {
+            validationMessage.append("Please provide a valid 10-digit phone number. ");
+        }
+//        if (!isValid(staffRequest.getBranchId())) {
+//            validationMessage.append("Branch ID should not be empty. ");
+//        }
+//        if (!isValidPassword(staffRequest.getPassword())) {
+//        	validationMessage.append("Password must be at least 8 characters and include uppercase, lowercase, number, and special character. ");
+//        }
+        if (staffRequest.getRoles() == null || staffRequest.getRoles().isEmpty()) {
+            validationMessage.append("At least one role must be assigned. ");
+        }
+        if (staffRequest.getPermissions() == null || staffRequest.getPermissions().isEmpty()) {
+            validationMessage.append("At least one permission must be provided. ");
+        }
+        if (validationMessage.length() > 0) {
+            return validationMessage.toString().trim();
+        }
+
+        return Constants.success;
+    }
 }

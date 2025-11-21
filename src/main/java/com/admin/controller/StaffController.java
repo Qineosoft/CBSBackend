@@ -56,7 +56,7 @@ public class StaffController {
 	private ResponseData updateStaff(@RequestBody() StaffRequest staffRequest) {
 		Boolean isUpdate = false;
 
-		String isValidateStaff = StaffVelidation.validateStaff(staffRequest);
+		String isValidateStaff = StaffVelidation.validateStaffForUpdate(staffRequest);
 
 		if (isValidateStaff.equals(Constants.success)) {
 			isUpdate = staffService.updateStaff(staffRequest);

@@ -1,4 +1,4 @@
-package com.admin.controller;
+package com.admin.config;
 
 import java.util.Random;
 

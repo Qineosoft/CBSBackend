@@ -1,5 +1,8 @@
 package com.admin.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,6 +48,15 @@ public class Staff {
 	
 	@Column(name = "status")
 	private String status;
+	
+	@Column(name = "password_created_date")
+	private LocalDate passwordCreatedDate;
+	
+	@Column(name = "password_expiry_date")
+    private LocalDate passwordExpiryDate;
+
+    @Column(name = "last_login")
+    private LocalDateTime lastLogin;
 
 	public Long getId() {
 		return id;
@@ -125,4 +137,29 @@ public class Staff {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public LocalDate getPasswordExpiryDate() {
+		return passwordExpiryDate;
+	}
+
+	public void setPasswordExpiryDate(LocalDate passwordExpiryDate) {
+		this.passwordExpiryDate = passwordExpiryDate;
+	}
+
+	public LocalDateTime getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(LocalDateTime lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	public LocalDate getPasswordCreatedDate() {
+		return passwordCreatedDate;
+	}
+
+	public void setPasswordCreatedDate(LocalDate passwordCreatedDate) {
+		this.passwordCreatedDate = passwordCreatedDate;
+	}
+	
 }

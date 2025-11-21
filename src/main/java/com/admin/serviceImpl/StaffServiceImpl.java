@@ -1,5 +1,6 @@
 package com.admin.serviceImpl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.admin.constants.Constants;
 import com.admin.entity.Branch;
@@ -17,6 +17,7 @@ import com.admin.repository.BranchRepository;
 import com.admin.repository.StaffRepository;
 import com.admin.request.StaffRequest;
 import com.admin.response.StaffResponse;
+import com.admin.service.EmailSender;
 import com.admin.service.StaffService;
 
 @Service
@@ -31,6 +32,9 @@ public class StaffServiceImpl implements StaffService{
 	@Autowired
 	public PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	public EmailSender emailSender;
+	
 	// ======================================================
 	//                      Save Staff
 	// ======================================================
@@ -42,7 +46,8 @@ public class StaffServiceImpl implements StaffService{
 	    }
 
 	    Branch branch = branchRepository.findByBranchId(staffRequest.getBranchId());
-	    String staffId = generateStaffId();
+	    String staffId = generateUserId(staffRequest.getFullName());
+	    
 
 	    Staff staff = new Staff();
 
@@ -52,11 +57,14 @@ public class StaffServiceImpl implements StaffService{
 	    staff.setStatus(Constants.active);
 	    staff.setRole(String.join(",", staffRequest.getRoles()));
 	    staff.setPermissions(String.join(",", staffRequest.getPermissions()));
+	    staff.setPasswordCreatedDate(LocalDate.now());
+	    staff.setPasswordExpiryDate(LocalDate.now().plusDays(90));
 
 	    BeanUtils.copyProperties(staffRequest, staff, 
 	            "branch", "staffId", "password", "status", "role", "permissions");
 
 	    Staff saved = staffRepository.save(staff);
+	    emailSender.sendUserIDPasswordToMail(staffRequest.getEmail(), staffId, staffRequest.getPassword());
 
 	    return saved != null;
 	}
@@ -66,39 +74,22 @@ public class StaffServiceImpl implements StaffService{
 	//                      Generate Staff id
 	// ======================================================
 
-//	public String generateStaffId(String branchId) {
-//		String prefix = branchId.substring(0, 2).toUpperCase();
-//
-//		String staffId = staffRepository.finRecentStaffId();
-//
-//		if (staffId == null || staffId.isEmpty()) {
-//			return prefix + "1000";
-//		}
-//
-//		String lastNumberPart = staffId.substring(2);
-//		int number = Integer.parseInt(lastNumberPart);
-//		number++;
-//
-//		return prefix + number;
-//	}
-	
-	public String generateStaffId() {
-	    String prefix = "STAFF";
-
-	    String lastStaffId = staffRepository.finRecentStaffId(); // Example: STAFF1000
-
+	public String generateUserId(String fullName) {
+	    String prefix = fullName.substring(0, 4).toUpperCase();
+	    
+	    String lastStaffId = staffRepository.finRecentStaffId();
 	    if (lastStaffId == null || lastStaffId.isEmpty()) {
-	        return prefix + "1000";
+	        return prefix + "0001";
 	    }
 
-	    // Extract numeric part after "STAFF"
-	    String numericPart = lastStaffId.replace(prefix, "");  
+	    String numericPart = lastStaffId.substring(4);
 	    int number = Integer.parseInt(numericPart);
+	    number++; 
+	    String newNumber = String.format("%04d", number);
 
-	    number++;
-
-	    return prefix + number;
+	    return prefix + newNumber;
 	}
+	
 
 	// ======================================================
 	//                      Update Staff
