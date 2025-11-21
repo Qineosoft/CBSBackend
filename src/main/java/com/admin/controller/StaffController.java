@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.admin.constants.Constants;
 import com.admin.constants.UrlConstants;
+import com.admin.request.StaffLoginRequest;
 import com.admin.request.StaffRequest;
 import com.admin.response.StaffResponse;
 import com.admin.responseData.ResponseData;
@@ -130,5 +131,21 @@ public class StaffController {
 	    }
 	    return new ResponseData(false, "Unable to reset password. Staff not found.", HttpStatus.NOT_FOUND);
 	}
+	
+	// ==================================================
+	//                   Login Staff By Id
+	// ==================================================
+	
+	@PostMapping(UrlConstants.stafLogin)
+    public ResponseData loginStaff(@RequestBody() StaffLoginRequest request) {
+
+        String result = staffService.loginStaff(request);
+
+        if (result.equals(Constants.success)) {
+            return new ResponseData(true, "Staff Login Successfully", HttpStatus.OK);
+        }
+
+        return new ResponseData(false, result, HttpStatus.UNAUTHORIZED);
+    }
 
 }

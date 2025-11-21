@@ -19,4 +19,16 @@ public class UrlConstants {
 	public static final String deleteById = "/delete/by/id";
 	
 	public static final String passwordReset = "/password/reset";
+	
+	public static final String stafLogin = "/login";
+	
+	// ==================================================
+	//                    Captcha URL
+	// ==================================================
+	
+	public static final String captchaMainUrl = "/captch";
+	
+	public static final String captchaGenerate = "/generate";
+	
+	public static final String captchaValidate = "/validate";
 }

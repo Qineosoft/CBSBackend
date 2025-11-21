@@ -26,4 +26,7 @@ public interface StaffRepository extends JpaRepository<Staff, Long>{
 	@Query("SELECT s FROM Staff s WHERE s.status = :active")
 	public List<Staff> findAllActiveStaff(@Param("active") String active);
 
+	@Query("SELECT s FROM Staff s WHERE s.staffId = :staffId")
+	public Staff findByStaffId(@Param("staffId") String staffId);
+
 }

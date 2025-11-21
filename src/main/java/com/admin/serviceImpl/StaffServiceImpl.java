@@ -15,10 +15,12 @@ import com.admin.entity.Branch;
 import com.admin.entity.Staff;
 import com.admin.repository.BranchRepository;
 import com.admin.repository.StaffRepository;
+import com.admin.request.StaffLoginRequest;
 import com.admin.request.StaffRequest;
 import com.admin.response.StaffResponse;
 import com.admin.service.EmailSender;
 import com.admin.service.StaffService;
+import com.admin.validation.CaptchaValidator;
 
 @Service
 public class StaffServiceImpl implements StaffService{
@@ -194,5 +196,31 @@ public class StaffServiceImpl implements StaffService{
         emailSender.sendPasswordResetMail(staff.getEmail(), newPassword);
         
         return true;
+	}
+
+	// ======================================================
+	//                      Login Staff
+	// ======================================================
+
+	@Override
+	public String loginStaff(StaffLoginRequest request) {
+        if (!CaptchaValidator.validateCaptcha(request.getCaptchaToken())) {
+            return "Invalid Captcha";
+        }
+
+        Staff staff = staffRepository.findByStaffId(request.getStaffId());
+        if (staff == null) {
+            return "Invalid Staff ID";
+        }
+
+        if (!passwordEncoder.matches(request.getPassword(), staff.getPassword())) {
+            return "Incorrect Password ! Password Should Not Be Same As Previous Password";
+        }
+
+        if (!Constants.active.equalsIgnoreCase(staff.getStatus())) {
+            return "User Is Not Exist ! Please Contact Admin";
+        }
+
+        return Constants.success;
 	}
 }
